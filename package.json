@@ -2,5 +2,14 @@
   "name": "jqapi-vue",
   "version": "0.1.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env PORT=9999 HOST=0.0.0.0 nuxt"
+  },
+  "dependencies": {
+    "nuxt": "^1.0.0-rc11"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.5"
+  }
 }
