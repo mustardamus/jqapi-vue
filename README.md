@@ -5,11 +5,13 @@
 We are using [Yarn](https://yarnpkg.com) for dependencies management and
 running tasks.
 
+
 ## Installation
 
 ```bash
 yarn
 ```
+
 
 ## Linting
 
@@ -30,6 +32,25 @@ create a symlink for the `pre-commit` Git hook:
 
 That way the `lint` task is run everytime when you try to commit code. If the
 linting fails, the committing fails.
+
+
+## Testing
+
+Test files have the same name as the file that needs to be tested, for example
+`./pages/index.vue` would have the test file `./pages/index.test.js`.
+
+Run all tests with:
+
+```bash
+yarn test
+```
+
+To watch all test files for changes, and re-running the tests, do:
+
+```bash
+yarn test:watch
+```
+
 
 ## TODO
 

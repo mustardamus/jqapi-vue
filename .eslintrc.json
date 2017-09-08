@@ -28,5 +28,22 @@
     "html/html-extensions": [".html"],
     "html/report-bad-indent": "error"
   },
-  "plugins": ["html"]
+  "plugins": ["html"],
+  "globals": {
+    "jest": true,
+    "test": true,
+    "expect": true,
+    "mockFn": true,
+    "config": true,
+    "afterEach": true,
+    "beforeEach": true,
+    "describe": true,
+    "it": true,
+    "runs": true,
+    "waitsFor": true,
+    "pit": true,
+    "require": true,
+    "xdescribe": true,
+    "xit": true
+  }
 }
