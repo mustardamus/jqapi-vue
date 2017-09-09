@@ -8,10 +8,12 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest -c jest.config.js",
     "test:watch": "jest -c jest.config.js --watch",
+    "docs": "node tasks/get-jquery-docs.js",
     "postinstall": "node tasks/git/init.js"
   },
   "dependencies": {
-    "nuxt": "^1.0.0-rc11"
+    "nuxt": "^1.0.0-rc11",
+    "shelljs": "^0.7.8"
   },
   "devDependencies": {
     "babel-jest": "^21.0.0",

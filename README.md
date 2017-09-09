@@ -12,6 +12,17 @@ running tasks.
 yarn
 ```
 
+## Tasks
+
+### `yarn docs`
+
+This command will clone/pull the official jQuery documentation from
+[jquery/api.jquery.com](https://github.com/jquery/api.jquery.com) to
+`./temp/docs`.
+
+After the documentation is successfully updated, the needed directories/files
+are copied to `./static/docs`.
+
 
 ## Linting
 
@@ -52,6 +63,3 @@ yarn test:watch
 ```
 
 
-## TODO
-
-- Add Jest with Vue config
