@@ -14,6 +14,10 @@ yarn
 
 ## Tasks
 
+### `yarn dev`
+
+This starts the development server at [localhost:9999](http://localhost:9999).
+
 ### `yarn docs`
 
 This command will clone/pull the official jQuery documentation from
@@ -23,16 +27,11 @@ This command will clone/pull the official jQuery documentation from
 After the documentation is successfully updated, the needed directories/files
 are copied to `./static/docs`.
 
+### `yarn lint`
 
-## Linting
+To lint each `*.js` and `*.vue` file.
 
-To lint each `*.js` and `*.vue` file, run the `lint` task:
-
-```bash
-yarn lint
-```
-
-### Linting before committing
+#### Linting before committing
 
 After the installation of dependencies is done, the `postinstall` task will
 create a symlink for the `pre-commit` Git hook:
@@ -44,22 +43,12 @@ create a symlink for the `pre-commit` Git hook:
 That way the `lint` task is run everytime when you try to commit code. If the
 linting fails, the committing fails.
 
+### `yarn test`
 
-## Testing
+Run all `*.test.js` files. Test files have the same name as the file that needs
+to be tested, for example `./pages/index.vue` would have the test file
+`./pages/index.test.js`.
 
-Test files have the same name as the file that needs to be tested, for example
-`./pages/index.vue` would have the test file `./pages/index.test.js`.
+### `yarn test:watch`
 
-Run all tests with:
-
-```bash
-yarn test
-```
-
-To watch all test files for changes, and re-running the tests, do:
-
-```bash
-yarn test:watch
-```
-
-
+To watch all test files for changes, and re-running the tests.
