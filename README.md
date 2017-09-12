@@ -18,7 +18,7 @@ yarn
 
 This starts the development server at [localhost:9999](http://localhost:9999).
 
-### `yarn docs`
+### `yarn docs:pull`
 
 This command will clone/pull the official jQuery documentation from
 [jquery/api.jquery.com](https://github.com/jquery/api.jquery.com) to
@@ -26,6 +26,16 @@ This command will clone/pull the official jQuery documentation from
 
 After the documentation is successfully updated, the needed directories/files
 are copied to `./static/docs`.
+
+### `yarn docs:entries`
+
+This command will read the `title`, `desc` and `categories` field from each
+`*.xml` file in `./temp/docs/entries` and will write a index of all entries with
+these fields to `./static/docs/entries.json`.
+
+## `yarn docs`
+
+Will run `docs:pull` and `docs:entries` in series.
 
 ### `yarn lint`
 
