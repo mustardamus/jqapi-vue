@@ -5,15 +5,21 @@
 </template>
 
 <script>
+import initActions from '~/plugins/init-actions'
+
 export default {
   asyncData ({ store }) {
-    // TODO put the init calls in a plugin, since this must be called on multiple pages
-    // TODO cache requests for categories and entries / check if already loaded
+    return initActions(store)
+  },
 
-    return Promise.all([
-      store.dispatch('categories/load'),
-      store.dispatch('entries/load')
-    ])
+  mounted () {
+    if (process.browser) {
+      const hash = location.hash
+
+      if (hash.includes('#p=')) {
+        this.$router.push(`${hash.replace('#p=', '')}`)
+      }
+    }
   }
 }
 </script>

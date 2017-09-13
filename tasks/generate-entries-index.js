@@ -1,4 +1,4 @@
-const { join } = require('path')
+const { join, basename } = require('path')
 const { existsSync, readdirSync, writeFileSync, readFileSync } = require('fs')
 const $ = require('cheerio')
 
@@ -64,6 +64,7 @@ const run = () => {
       const title = getTitle($el)
       const desc = getDesc($el)
       const categories = getCategories($el)
+      const slug = basename(entry, '.xml')
 
       if (title.length === 0) {
         warnings.push(`Warn: Could not get 'title' from '${entryPath}'`)
@@ -79,7 +80,7 @@ const run = () => {
 
       console.log(`${title} (${categories.length} categories)`)
 
-      return { title, desc, categories }
+      return { title, desc, categories, slug }
     })
 
   writeFileSync(distPath, JSON.stringify(entries), 'utf8')
