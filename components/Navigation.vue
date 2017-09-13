@@ -11,7 +11,7 @@
         'is-hidden': !categoriesOpen[category.slug]
       }">
         <li v-for="entry in findEntries(category.slug)" :key="entry.title">
-          <nuxt-link :to="entry.slug">
+          <nuxt-link :to="'/' + entry.slug">
             {{entry.title}}
           </nuxt-link>
         </li>
