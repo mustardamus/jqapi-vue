@@ -74,4 +74,13 @@ describe('Navigation Component', () => {
     expect(text(1)).toBe('bEntry')
     expect(text(2)).toBe('cEntry')
   })
+
+  it('should have the entries initially closed', () => {
+    expect(comp.find('.entries')[0].hasClass('is-hidden')).toBe(true)
+  })
+
+  it('should remove the hidden class if category title is clicked', () => {
+    comp.find('.category-name')[0].trigger('click')
+    expect(comp.find('.entries')[0].hasClass('is-hidden')).toBe(false)
+  })
 })
