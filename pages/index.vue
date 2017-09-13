@@ -1,26 +1,15 @@
 <template>
   <div>
-    <navigation :categories="categories" :entries="entries" />
+    Index Page
   </div>
 </template>
 
 <script>
-import Navigation from '~/components/Navigation'
-
 export default {
-  components: { Navigation },
-
-  computed: {
-    categories () {
-      return this.$store.state.categories.index
-    },
-
-    entries () {
-      return this.$store.state.entries.index
-    }
-  },
-
   asyncData ({ store }) {
+    // TODO put the init calls in a plugin, since this must be called on multiple pages
+    // TODO cache requests for categories and entries / check if already loaded
+
     return Promise.all([
       store.dispatch('categories/load'),
       store.dispatch('entries/load')

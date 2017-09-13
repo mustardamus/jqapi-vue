@@ -1,6 +1,7 @@
 module.exports = {
   build: {
-    vendor: ['jquery/dist/jquery.slim']
+    vendor: ['jquery/dist/jquery.slim'],
+    extractCSS: true
   },
 
   modules: [
@@ -9,5 +10,9 @@ module.exports = {
       browserBaseURL: '/',
       credentials: false
     }]
+  ],
+
+  css: [
+    '~/assets/sass/index.sass'
   ]
 }

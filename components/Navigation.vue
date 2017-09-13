@@ -1,21 +1,20 @@
 <template>
-  <div>
-    <ul class="categories">
-      <li v-for="category in categories" :key="category.slug">
-        <h3 class="category-name" @click="onCategoryClick(category)">
-          {{category.name}}
-        </h3>
+  <div class="categories menu">
+    <div v-for="category in categories" :key="category.slug">
+      <h3 class="category-name menu-label" @click="onCategoryClick(category)">
+        {{category.name}}
+      </h3>
 
-        <ul :class="{
-          entries: true,
-          'is-hidden': !categoriesOpen[category.slug]
-        }">
-          <li v-for="entry in findEntries(category.slug)" :key="entry.title">
-            {{entry.title}}
-          </li>
-        </ul>
-      </li>
-    </ul>
+      <ul :class="{
+        entries: true,
+        'menu-list': true,
+        'is-hidden': !categoriesOpen[category.slug]
+      }">
+        <li v-for="entry in findEntries(category.slug)" :key="entry.title">
+          <a>{{entry.title}}</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -60,6 +59,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.is-hidden
-  display: none
+.menu
+  padding: 10px
+
+.menu-label
+  cursor: pointer
+  font-size: 1em
+
+  &:hover
+    color: #111
 </style>
