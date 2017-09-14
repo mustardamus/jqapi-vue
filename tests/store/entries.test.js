@@ -131,13 +131,23 @@ describe('Entries Store', () => {
     expect(actions).toBeTruthy()
   })
 
-  it('should send a request on load action', () => {
+  it('should send a request on load action if index empty', () => {
     const commit = jest.fn()
+    const state = { index: [] }
 
-    return actions.load.call(contextMock, { commit }).then(res => {
+    return actions.load.call(contextMock, { commit, state }).then(res => {
       expect(commit.mock.calls.length).toBe(1)
       expect(commit.mock.calls[0][0]).toBe('setEntries')
       expect(commit.mock.calls[0][1]).toBe('/docs/entries.json')
+    })
+  })
+
+  it('should not send a request on load action if index not empty', () => {
+    const commit = jest.fn()
+    const state = { index: ['loaded'] }
+
+    return actions.load.call(contextMock, { commit, state }).then(res => {
+      expect(commit.mock.calls.length).toBe(0)
     })
   })
 

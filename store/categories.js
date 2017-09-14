@@ -27,8 +27,18 @@ export const mutations = {
 }
 
 export const actions = {
-  load ({ commit }) {
-    return this.$axios.get('/docs/categories.xml')
-      .then(res => commit('setCategoriesFromXML', res.data))
+  load ({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      if (state.index.length !== 0) {
+        resolve()
+      } else {
+        this.$axios.get('/docs/categories.xml')
+          .then(res => {
+            commit('setCategoriesFromXML', res.data)
+            resolve()
+          })
+          .catch(err => reject(err))
+      }
+    })
   }
 }

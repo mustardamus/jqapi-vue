@@ -40,9 +40,19 @@ export const mutations = {
 }
 
 export const actions = {
-  load ({ commit }) {
-    return this.$axios.get('/docs/entries.json')
-      .then(res => commit('setEntries', res.data))
+  load ({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      if (state.index.length !== 0) {
+        resolve()
+      } else {
+        this.$axios.get('/docs/entries.json')
+          .then(res => {
+            commit('setEntries', res.data)
+            resolve()
+          })
+          .catch(err => reject(err))
+      }
+    })
   },
 
   loadEntry ({ commit }, entrySlug) {

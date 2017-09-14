@@ -1,5 +1,13 @@
 import { state, mutations, actions } from '~/store/categories'
 
+const contextMock = {
+  $axios: {
+    get (url) {
+      return new Promise(resolve => resolve({ data: url }))
+    }
+  }
+}
+
 describe('Categories Store', () => {
   it('should export needed stuff', () => {
     expect(state).toBeTruthy()
@@ -7,20 +15,23 @@ describe('Categories Store', () => {
     expect(actions).toBeTruthy()
   })
 
-  it('should send a request on load action', () => {
+  it('should send a request on load action if index empty', () => {
     const commit = jest.fn()
-    const context = {
-      $axios: {
-        get (url) {
-          return new Promise(resolve => resolve({ data: url }))
-        }
-      }
-    }
+    const state = { index: [] }
 
-    return actions.load.call(context, { commit }).then(res => {
+    return actions.load.call(contextMock, { commit, state }).then(res => {
       expect(commit.mock.calls.length).toBe(1)
       expect(commit.mock.calls[0][0]).toBe('setCategoriesFromXML')
       expect(commit.mock.calls[0][1]).toBe('/docs/categories.xml')
+    })
+  })
+
+  it('should not send a request on load action if index not empty', () => {
+    const commit = jest.fn()
+    const state = { index: ['loaded'] }
+
+    return actions.load.call(contextMock, { commit, state }).then(res => {
+      expect(commit.mock.calls.length).toBe(0)
     })
   })
 
