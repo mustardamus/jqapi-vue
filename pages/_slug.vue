@@ -5,7 +5,7 @@
 
       <h3 class="title is-3">Signatures</h3>
 
-      <div v-for="(i, signature) in entry.signatures" :key="i">
+      <div v-for="(i, signature) in entry.signatures" :key="'sig' + i">
         <h4 class="title is-4">
           Added: {{signature.added}}
         </h4>
@@ -29,6 +29,20 @@
       </div>
 
       <div class="content" v-html="entry.longdesc" />
+
+      <h3 class="title is-3">Examples</h3>
+
+      <div class="columns" v-for="example in entry.examples" :key="example.code">
+        <div class="column is-4">
+          <pre>{{example.html}}</pre>
+        </div>
+        <div class="column is-4">
+          <pre>{{example.code}}</pre>
+        </div>
+        <div class="column is-4">
+          <pre>{{example.css}}</pre>
+        </div>
+      </div>
     </div>
   </div>
 </template>

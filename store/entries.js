@@ -25,6 +25,12 @@ export const state = () => ({
   ]
 })
 
+const getCategories = $entry => {
+  return $entry.find('category').map((i, el) => {
+    return $(el).attr('slug')
+  }).get()
+}
+
 const getSignatures = $entry => {
   return $entry.find('signature').map((i, sig) => {
     const $sig = $(sig)
@@ -45,19 +51,41 @@ const getSignatures = $entry => {
   }).get()
 }
 
+const getExamples = $entry => {
+  return $entry.find('example').map((i, example) => {
+    const $example = $(example)
+    const get = tagName => {
+      const html = $example.find(tagName).html() || ''
+      return cleanString(html)
+    }
+
+    return {
+      desc: get('desc'),
+      code: get('code'),
+      css: get('css'),
+      html: get('markup')
+    }
+  }).get()
+}
+
 export const mutations = {
   setEntries (state, val) {
     state.index = val
   },
 
   setCurrentEntry (state, xml) {
+    // <html> in the examples is stripped away when parsing the xml code
+    // so simply rename in to <markup> and parse this
+    xml = cleanString(xml)
+      .replace(/<html>/gi, '<markup>')
+      .replace(/<\/html>/gi, '</markup>')
+
     const $el = $(`<root>${xml}</root>`)
 
     state.current = $el.find('entry').map((i, el) => {
       const $entry = $(el)
 
-      // TODO categories, examples
-      // TODO set name in parent object as entry 2 usually dont have the name field
+      // TODO set name/title in parent object as entry 2 usually dont have the name/title field
       return {
         type: $entry.attr('type'),
         name: $entry.attr('name'),
@@ -65,7 +93,9 @@ export const mutations = {
         title: cleanString($entry.find('title').text()),
         desc: cleanString($entry.find('> desc').html()),
         longdesc: cleanString($entry.find('> longdesc').html()),
-        signatures: getSignatures($entry)
+        categories: getCategories($entry),
+        signatures: getSignatures($entry),
+        examples: getExamples($entry)
       }
     }).get()
   }

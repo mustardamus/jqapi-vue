@@ -47,6 +47,19 @@ const singleEntryXML = `<?xml version="1.0"?>
       Example 1 HTML
     ]]></html>
   </example>
+
+  <example>
+    <desc>Example 2 Desc</desc>
+    <code><![CDATA[
+      Example 2 Code
+    ]]></code>
+    <css><![CDATA[
+      Example 2 CSS
+    ]]></css>
+    <html><![CDATA[
+      Example 2 HTML
+    ]]></html>
+  </example>
 </entry>`
 
 const multiEntriesXML = `<?xml version="1.0"?>
@@ -128,6 +141,35 @@ const multiEntriesXML = `<?xml version="1.0"?>
   </entry>
 </entries>`
 
+const singleEntryJSON = {
+  type: 'method',
+  name: 'singleEntry',
+  return: 'string',
+  title: '.singleEntry()',
+  desc: 'Entry Desc',
+  longdesc: '<p>Entry Longdesc</p>',
+  categories: ['singleentry/cat1', 'singleentry/cat2'],
+  signatures: [
+    {
+      added: '1.0',
+      arguments: [
+        { name: 'selector', type: 'Selector', desc: 'Signature 1 Desc' }
+      ]
+    },
+    {
+      added: '1.4',
+      arguments: [
+        { name: 'elements', type: 'Element', desc: 'Signature 2 Arg1 Desc' },
+        { name: 'text', type: 'String', desc: 'Signature 2 Arg2 Desc' }
+      ]
+    }
+  ],
+  examples: [
+    { desc: 'Example 1 Desc', code: 'Example 1 Code', css: 'Example 1 CSS', html: 'Example 1 HTML' },
+    { desc: 'Example 2 Desc', code: 'Example 2 Code', css: 'Example 2 CSS', html: 'Example 2 HTML' }
+  ]
+}
+
 describe('Entries Store', () => {
   it('should export needed stuff', () => {
     expect(state).toBeTruthy()
@@ -179,33 +221,12 @@ describe('Entries Store', () => {
     mutations.setCurrentEntry(state, singleEntryXML)
 
     expect(state.current.length).toBe(1)
-    expect(state.current[0]).toEqual({
-      type: 'method',
-      name: 'singleEntry',
-      return: 'string',
-      title: '.singleEntry()',
-      desc: 'Entry Desc',
-      longdesc: '<p>Entry Longdesc</p>',
-      signatures: [
-        {
-          added: '1.0',
-          arguments: [
-            { name: 'selector', type: 'Selector', desc: 'Signature 1 Desc' }
-          ]
-        },
-        {
-          added: '1.4',
-          arguments: [
-            { name: 'elements', type: 'Element', desc: 'Signature 2 Arg1 Desc' },
-            { name: 'text', type: 'String', desc: 'Signature 2 Arg2 Desc' }
-          ]
-        }
-      ]
-    })
+    expect(state.current[0]).toEqual(singleEntryJSON)
 
     mutations.setCurrentEntry(state, multiEntriesXML)
 
     expect(state.current.length).toBe(2)
+    expect(state.current[0].title).toBe('.multiEntry1()')
     expect(state.current[1].title).toBe('.multiEntry2()')
   })
 })
