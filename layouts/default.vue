@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid">
+  <div id="layout" class="container-fluid">
     <div class="columns">
       <div class="column is-2">
-        <navigation :categories="categories" :entries="entries" />
+        <navigation id="navigation" :categories="categories" :entries="entries" />
       </div>
       <div class="column">
         <nuxt />
@@ -28,3 +28,15 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+html, body, #__nuxt, #layout, #navigation
+  height: 100%
+
+#navigation
+  overflow-x: hidden
+  overflow-y: scroll
+  position: fixed
+  top: 0
+  left: 0
+</style>
