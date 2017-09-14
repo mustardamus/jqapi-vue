@@ -25,9 +25,13 @@ const singleEntryXML = `<?xml version="1.0"?>
     </argument>
   </signature>
   <signature>
-    <added>1.0</added>
+    <added>1.4</added>
     <argument name="elements" type="Element">
-      <desc>Signature 2 Desc</desc>
+      <desc>Signature 2 Arg1 Desc</desc>
+    </argument>
+
+    <argument name="text" type="String">
+      <desc>Signature 2 Arg2 Desc</desc>
     </argument>
   </signature>
 
@@ -181,19 +185,27 @@ describe('Entries Store', () => {
       return: 'string',
       title: '.singleEntry()',
       desc: 'Entry Desc',
-      longdesc: '<p>Entry Longdesc</p>'
+      longdesc: '<p>Entry Longdesc</p>',
+      signatures: [
+        {
+          added: '1.0',
+          arguments: [
+            { name: 'selector', type: 'Selector', desc: 'Signature 1 Desc' }
+          ]
+        },
+        {
+          added: '1.4',
+          arguments: [
+            { name: 'elements', type: 'Element', desc: 'Signature 2 Arg1 Desc' },
+            { name: 'text', type: 'String', desc: 'Signature 2 Arg2 Desc' }
+          ]
+        }
+      ]
     })
 
     mutations.setCurrentEntry(state, multiEntriesXML)
 
     expect(state.current.length).toBe(2)
-    expect(state.current[1]).toEqual({
-      type: 'method',
-      name: 'multiEntry2',
-      return: 'string',
-      title: '.multiEntry2()',
-      desc: 'Entry 2 Desc',
-      longdesc: '<p>Entry 2 Longdesc</p>'
-    })
+    expect(state.current[1].title).toBe('.multiEntry2()')
   })
 })

@@ -10,10 +10,40 @@ export const state = () => ({
       return: '',
       title: '',
       desc: '',
-      longdesc: ''
+      longdesc: '',
+      signatures: [
+        {
+          added: '',
+          arguments: [
+            name: '',
+            type: '',
+            desc: ''
+          ]
+        }
+      ]
     } */
   ]
 })
+
+const getSignatures = $entry => {
+  return $entry.find('signature').map((i, sig) => {
+    const $sig = $(sig)
+    const args = $sig.find('argument').map((i, arg) => {
+      const $arg = $(arg)
+
+      return {
+        name: $arg.attr('name'),
+        type: $arg.attr('type'),
+        desc: cleanString($arg.find('desc').html())
+      }
+    }).get()
+
+    return {
+      added: cleanString($sig.find('added').text()),
+      arguments: args
+    }
+  }).get()
+}
 
 export const mutations = {
   setEntries (state, val) {
@@ -26,14 +56,16 @@ export const mutations = {
     state.current = $el.find('entry').map((i, el) => {
       const $entry = $(el)
 
-      // TODO categories, examples, signatures
+      // TODO categories, examples
+      // TODO set name in parent object as entry 2 usually dont have the name field
       return {
         type: $entry.attr('type'),
         name: $entry.attr('name'),
         return: $entry.attr('return'),
         title: cleanString($entry.find('title').text()),
         desc: cleanString($entry.find('> desc').html()),
-        longdesc: cleanString($entry.find('> longdesc').html())
+        longdesc: cleanString($entry.find('> longdesc').html()),
+        signatures: getSignatures($entry)
       }
     }).get()
   }
