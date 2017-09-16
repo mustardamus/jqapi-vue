@@ -2,7 +2,7 @@
   <div id="layout" class="container-fluid">
     <div class="columns">
       <div class="column is-2">
-        <navigation id="navigation" :categories="categories" :entries="entries" />
+        <sidebar id="sidebar" />
       </div>
       <div class="column">
         <nuxt />
@@ -12,28 +12,18 @@
 </template>
 
 <script>
-import Navigation from '~/components/Navigation'
+import Sidebar from '~/components/Sidebar'
 
 export default {
-  components: { Navigation },
-
-  computed: {
-    categories () {
-      return this.$store.state.categories.index
-    },
-
-    entries () {
-      return this.$store.state.entries.index
-    }
-  }
+  components: { Sidebar }
 }
 </script>
 
 <style lang="sass">
-html, body, #__nuxt, #layout, #navigation
+html, body, #__nuxt, #layout, #sidebar
   height: 100%
 
-#navigation
+#sidebar
   overflow-x: hidden
   overflow-y: scroll
   position: fixed
