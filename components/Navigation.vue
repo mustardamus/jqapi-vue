@@ -5,23 +5,20 @@
         {{category.name}}
       </h3>
 
-      <ul :class="{
-        entries: true,
-        'menu-list': true,
-        'is-hidden': !categoriesOpen[category.slug]
-      }">
-        <li v-for="entry in findEntries(category.slug)" :key="entry.title">
-          <nuxt-link :to="'/' + entry.slug">
-            {{entry.title}}
-          </nuxt-link>
-        </li>
-      </ul>
+      <entries-list
+        :entries="findEntries(category.slug)"
+        :class="{ 'is-hidden': !categoriesOpen[category.slug] }"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import EntriesList from '~/components/EntriesList'
+
 export default {
+  components: { EntriesList },
+
   props: {
     categories: Array,
     entries: Array
@@ -61,13 +58,21 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.menu
-  padding: 10px
+@import "~assets/sass/variables"
 
 .menu-label
   cursor: pointer
   font-size: 1em
+  background: $color3
+  margin: 0
+  padding: 10px
+  color: #222
+  border-bottom: 1px solid $color4
 
   &:hover
-    color: #111
+    background: $color4
+    color: white
+
+  &:last-child
+    border-bottom: none
 </style>

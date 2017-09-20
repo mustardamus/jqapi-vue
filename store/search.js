@@ -14,6 +14,8 @@ export const mutations = {
     if (state.term.length === 0) {
       state.index = []
     } else {
+      entries = JSON.parse(JSON.stringify(entries)) // make a deep clone
+
       state.index = entries
         .filter(entry => {
           const result = fuzzysort.single(state.term, entry.title)

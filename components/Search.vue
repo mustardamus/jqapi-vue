@@ -4,16 +4,16 @@
       <input type="text" v-model="term" @keyup="onKeyup" />
     </div>
 
-    <ul class="entries menu-list">
-      <li v-for="entry in entries" :key="entry.name">
-        <nuxt-link :to="'/' + entry.slug" v-html="entry.titleHTML" />
-      </li>
-    </ul>
+    <entries-list :entries="entries" />
   </div>
 </template>
 
 <script>
+import EntriesList from '~/components/EntriesList'
+
 export default {
+  components: { EntriesList },
+
   props: {
     entries: Array
   },
