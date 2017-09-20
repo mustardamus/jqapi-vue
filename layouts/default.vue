@@ -1,11 +1,13 @@
 <template>
   <div id="layout" class="container-fluid">
-    <div class="columns">
-      <div class="column is-2">
+    <div class="columns is-gapless">
+      <div id="sidebar-wrapper" class="column is-3">
         <sidebar id="sidebar" />
       </div>
       <div class="column">
-        <nuxt />
+        <div id="content">
+          <nuxt />
+        </div>
       </div>
     </div>
   </div>
@@ -20,13 +22,29 @@ export default {
 </script>
 
 <style lang="sass">
-html, body, #__nuxt, #layout, #sidebar
+@import "~assets/sass/variables"
+
+html, body, #__nuxt, #layout, #layout > .columns
   height: 100%
 
+#sidebar-wrapper
+  overflow: hidden
+  position: relative
+
 #sidebar
-  overflow-x: hidden
-  overflow-y: scroll
-  position: fixed
+  position: absolute
   top: 0
   left: 0
+  width: 100%
+  height: 100%
+  overflow-x: hidden
+  overflow-y: scroll
+  background: $color1
+  border-right: 1px solid $color5
+
+#content
+  position: relative
+  width: 100%
+  height: 100%
+  overflow: scroll
 </style>

@@ -1,13 +1,11 @@
 <template>
   <div>
     <search
-      id="search"
       :entries="searchEntries"
       @data="onSearchData"
     />
 
     <navigation
-      id="navigation"
       :class="{ 'is-hidden': hasSearchTerm }"
       :categories="categories"
       :entries="entries"
