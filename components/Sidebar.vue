@@ -1,6 +1,10 @@
 <template>
   <div>
-    <search id="search" @data="onSearchData" />
+    <search
+      id="search"
+      :entries="searchEntries"
+      @data="onSearchData"
+    />
 
     <navigation
       id="navigation"
@@ -29,12 +33,16 @@ export default {
 
     hasSearchTerm () {
       return this.$store.state.search.term.length
+    },
+
+    searchEntries () {
+      return this.$store.state.search.index
     }
   },
 
   methods: {
     onSearchData (term) {
-      this.$store.dispatch('search/term', term)
+      this.$store.dispatch('search/search', term)
     }
   }
 }
