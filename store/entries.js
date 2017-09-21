@@ -3,6 +3,14 @@ import cleanString from '~/plugins/clean-string'
 
 export const state = () => ({
   index: [],
+  selected: {
+    /*
+      title: '',
+      slug: '',
+      desc: '',
+      categories: []
+    */
+  },
   current: [
     /* {
       type: '',
@@ -71,6 +79,10 @@ const getExamples = $entry => {
 export const mutations = {
   setEntries (state, val) {
     state.index = val
+  },
+
+  setSelected (state, val) {
+    state.selected = val
   },
 
   setCurrentEntry (state, xml) {

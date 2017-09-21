@@ -204,6 +204,13 @@ describe('Entries Store', () => {
     expect(state.index).toEqual(['success'])
   })
 
+  it('should update the selected state', () => {
+    const state = { selected: {} }
+
+    mutations.setSelected(state, { slug: 'success' })
+    expect(state.selected).toEqual({ slug: 'success' })
+  })
+
   it('should send a request on loadEntry action', () => {
     const commit = jest.fn()
 
