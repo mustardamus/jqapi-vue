@@ -132,5 +132,28 @@ export const actions = {
   loadEntry ({ commit }, entrySlug) {
     return this.$axios.get(`/docs/entries/${entrySlug}.xml`)
       .then(res => commit('setCurrentEntry', res.data))
+  },
+
+  navigate ({ commit, state }, { direction, entries }) {
+    const selected = state.selected
+    let newIndex = 0
+
+    if (selected.slug) {
+      const index = entries.findIndex(entry => entry.slug === selected.slug)
+
+      if (direction === 'down') {
+        if (index + 1 < entries.length) {
+          newIndex = index + 1
+        }
+      } else {
+        if (index - 1 < 0) {
+          newIndex = entries.length - 1
+        } else {
+          newIndex = index - 1
+        }
+      }
+    }
+
+    commit('setSelected', entries[newIndex])
   }
 }

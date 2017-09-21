@@ -22,15 +22,36 @@ export default {
     term: ''
   }),
 
+  computed: {
+    selectedEntry () {
+      return this.$store.state.entries.selected
+    }
+  },
+
   methods: {
     onKeyup (e) {
       switch (e.keyCode) {
         case 13: // enter
+          if (this.selectedEntry.slug) {
+            this.$router.push(`/${this.selectedEntry.slug}`)
+          }
           break
+
         case 27: // esc
           this.term = ''
           this.submit()
           break
+
+        case 38: // up
+          this.navigate('up')
+          e.preventDefault()
+          break
+
+        case 40: // down
+          this.navigate('down')
+          e.preventDefault()
+          break
+
         default:
           this.submit()
       }
@@ -38,6 +59,17 @@ export default {
 
     submit () {
       this.$emit('data', this.term)
+    },
+
+    navigate (direction) {
+      if (this.term.length) {
+        this.$store.dispatch('entries/navigate', {
+          direction,
+          entries: this.$store.state.search.index
+        })
+      } else {
+        // TODO navigate including categories
+      }
     }
   }
 }
