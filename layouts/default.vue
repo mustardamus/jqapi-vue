@@ -17,7 +17,25 @@
 import Sidebar from '~/components/Sidebar'
 
 export default {
-  components: { Sidebar }
+  components: { Sidebar },
+
+  mounted () {
+    if (process.browser) {
+      window.onkeyup = this.onKeyUp
+    }
+  },
+
+  methods: {
+    onKeyUp (e) {
+      const keyCode = e.keyCode ? e.keyCode : e.which
+
+      switch (keyCode) {
+        case 27: // ESC
+          document.querySelector('#search-input input').focus()
+          break
+      }
+    }
+  }
 }
 </script>
 
