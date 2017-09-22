@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash'
 import $ from '~/plugins/jquery'
 import cleanString from '~/plugins/clean-string'
 
@@ -28,8 +29,9 @@ export const mutations = {
 
   populateWithEntries (state, entries) {
     if (state.populated.length === 0) {
-      // TODO clone index, so it is not mutated
-      state.populated = state.index.map(category => {
+      const index = cloneDeep(state.index)
+
+      state.populated = index.map(category => {
         category.entries = entries
           .filter(entry => {
             return entry.categories.filter(cats => {

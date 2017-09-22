@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
 import EntriesList from '~/components/EntriesList'
 
 export default {
@@ -38,7 +39,7 @@ export default {
 
         case 27: // esc
           this.term = ''
-          this.submit()
+          this.$emit('data', this.term)
           break
 
         case 38: // up
@@ -56,9 +57,9 @@ export default {
       }
     },
 
-    submit () {
+    submit: debounce(function () {
       this.$emit('data', this.term)
-    },
+    }, 300),
 
     navigate (direction) {
       if (this.term.length) {

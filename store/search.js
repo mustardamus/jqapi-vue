@@ -1,4 +1,5 @@
 import fuzzysort from 'fuzzysort'
+import { cloneDeep } from 'lodash'
 
 export const state = () => ({
   term: '',
@@ -14,7 +15,7 @@ export const mutations = {
     if (state.term.length === 0) {
       state.index = []
     } else {
-      entries = JSON.parse(JSON.stringify(entries)) // make a deep clone
+      entries = cloneDeep(entries)
 
       state.index = entries
         .filter(entry => {
