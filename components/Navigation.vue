@@ -6,22 +6,24 @@
       </h3>
 
       <entries-list
-        :entries="findEntries(category.slug)"
         :class="{ 'is-hidden': !categoriesOpen[category.slug] }"
+        :entries="category.entries"
+        :selectedEntry="selectedEntry"
+        @entryClick="onEntryClick"
       />
     </div>
   </div>
 </template>
 
 <script>
-import EntriesList from '~/components/EntriesList'
+import EntriesList from './EntriesList'
 
 export default {
   components: { EntriesList },
 
   props: {
     categories: Array,
-    entries: Array
+    selectedEntry: Object
   },
 
   data: () => ({
@@ -35,23 +37,16 @@ export default {
   },
 
   methods: {
-    findEntries (categorySlug) {
-      return this.entries
-        .filter(entry => {
-          return entry.categories.filter(category => {
-            return category.includes(categorySlug)
-          }).length
-        })
-        .sort((a, b) => {
-          return (a.title < b.title) ? -1 : (a.title > b.title) ? 1 : 0
-        })
-    },
-
     onCategoryClick (category) {
       const slug = category.slug
       const isOpen = this.categoriesOpen[slug]
 
       this.$set(this.categoriesOpen, slug, !isOpen)
+    },
+
+    onEntryClick (entry) {
+      this.$store.commit('entries/setSelected', entry)
+      this.$router.push(`/${entry.slug}`)
     }
   }
 }

@@ -2,7 +2,8 @@ import $ from '~/plugins/jquery'
 import cleanString from '~/plugins/clean-string'
 
 export const state = () => ({
-  index: []
+  index: [],
+  populated: []
 })
 
 const getSubCategories = $parent => {
@@ -23,6 +24,25 @@ export const mutations = {
     const body = `<div>${cleanString(xml)}</div>`
     const $categories = $(body).children('categories')
     state.index = getSubCategories($categories)
+  },
+
+  populateWithEntries (state, entries) {
+    if (state.populated.length === 0) {
+      // TODO clone index, so it is not mutated
+      state.populated = state.index.map(category => {
+        category.entries = entries
+          .filter(entry => {
+            return entry.categories.filter(cats => {
+              return cats.includes(category.slug)
+            }).length
+          })
+          .sort((a, b) => {
+            return (a.title < b.title) ? -1 : (a.title > b.title) ? 1 : 0
+          })
+
+        return category
+      })
+    }
   }
 }
 

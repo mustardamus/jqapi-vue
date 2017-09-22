@@ -2,13 +2,14 @@
   <div>
     <search
       :entries="searchEntries"
+      :selectedEntry="selectedEntry"
       @data="onSearchData"
     />
 
     <navigation
       :class="{ 'is-hidden': hasSearchTerm }"
       :categories="categories"
-      :entries="entries"
+      :selectedEntry="selectedEntry"
     />
   </div>
 </template>
@@ -22,11 +23,7 @@ export default {
 
   computed: {
     categories () {
-      return this.$store.state.categories.index
-    },
-
-    entries () {
-      return this.$store.state.entries.index
+      return this.$store.state.categories.populated
     },
 
     hasSearchTerm () {
@@ -35,6 +32,10 @@ export default {
 
     searchEntries () {
       return this.$store.state.search.index
+    },
+
+    selectedEntry () {
+      return this.$store.state.entries.selected
     }
   },
 
@@ -42,6 +43,9 @@ export default {
     onSearchData (term) {
       this.$store.dispatch('search/search', term)
     }
+
+    // TODO move any $store interaction from the children components to this
+    // component, or better, the page
   }
 }
 </script>

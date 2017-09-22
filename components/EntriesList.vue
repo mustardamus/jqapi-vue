@@ -15,19 +15,16 @@
 <script>
 export default {
   props: {
-    entries: Array
-  },
-
-  computed: {
-    selectedEntry () {
-      return this.$store.state.entries.selected
+    entries: Array,
+    selectedEntry: {
+      type: Object,
+      default: () => ({ slug: '' })
     }
   },
 
   methods: {
     onEntryClick (entry) {
-      this.$store.commit('entries/setSelected', entry)
-      this.$router.push(`/${entry.slug}`)
+      this.$emit('entryClick', entry)
     }
   }
 }

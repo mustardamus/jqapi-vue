@@ -4,7 +4,11 @@
       <input type="text" v-model="term" @keyup="onKeyup" />
     </div>
 
-    <entries-list :entries="entries" />
+    <entries-list
+      :entries="entries"
+      :selectedEntry="selectedEntry"
+      @entryClick="onEntryClick"
+    />
   </div>
 </template>
 
@@ -15,18 +19,13 @@ export default {
   components: { EntriesList },
 
   props: {
-    entries: Array
+    entries: Array,
+    selectedEntry: Object
   },
 
   data: () => ({
     term: ''
   }),
-
-  computed: {
-    selectedEntry () {
-      return this.$store.state.entries.selected
-    }
-  },
 
   methods: {
     onKeyup (e) {
@@ -70,6 +69,11 @@ export default {
       } else {
         // TODO navigate including categories
       }
+    },
+
+    onEntryClick (entry) {
+      this.$store.commit('entries/setSelected', entry)
+      this.$router.push(`/${entry.slug}`)
     }
   }
 }

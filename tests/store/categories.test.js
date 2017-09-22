@@ -85,4 +85,29 @@ describe('Categories Store', () => {
     mutations.setCategoriesFromXML(state, categoriesXML)
     expect(state.index).toEqual(check)
   })
+
+  it('should create a entries popluated categories list', () => {
+    const state = {
+      index: [
+        { name: 'Cat1', slug: 'cat1' },
+        { name: 'Cat2', slug: 'cat2' },
+        { name: 'Cat3', slug: 'cat3' }
+      ],
+      populated: []
+    }
+
+    const entries = [
+      { title: 'cEntry()', slug: 'cEntry', categories: ['cat2', 'cat3'] },
+      { title: 'aEntry()', slug: 'aEntry', categories: ['cat1', 'cat3'] },
+      { title: 'bEntry()', slug: 'bEntry', categories: ['cat2'] }
+    ]
+
+    mutations.populateWithEntries(state, entries)
+
+    expect(state.populated.length).toBe(state.index.length)
+    expect(state.populated[0].entries.length).toBe(1)
+    expect(state.populated[1].entries.length).toBe(2)
+    expect(state.populated[2].entries[0].slug).toBe('aEntry')
+    expect(state.populated[2].entries[1].slug).toBe('cEntry')
+  })
 })
