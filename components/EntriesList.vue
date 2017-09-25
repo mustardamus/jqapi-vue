@@ -4,7 +4,7 @@
       v-for="entry in entries" :key="entry.name"
       :class="{ 'is-active': entry.slug === selectedEntry.slug }"
     >
-      <a @click="onEntryClick(entry)">
+      <a class="is-unselectable" @click="onEntryClick(entry)">
         <span class="entry-title" v-html="entry.titleHTML || entry.title" />
         <span class="entry-desc" v-html="entry.desc" />
       </a>
