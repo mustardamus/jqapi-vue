@@ -21,7 +21,7 @@ describe('Sidebar Component', () => {
   const comp = mount(Sidebar, opts)
 
   test('it should have a search input', () => {
-    expect(comp.contains('#search input')).toBe(true)
+    expect(comp.contains('#search-input')).toBe(true)
   })
 
   test('it should hide the navigation if a search term is present', () => {
@@ -30,7 +30,7 @@ describe('Sidebar Component', () => {
     comp.update()
 
     expect(dispatch.mock.calls.length).toBe(1)
-    expect(dispatch.mock.calls[0][0]).toBe('search/term')
+    expect(dispatch.mock.calls[0][0]).toBe('search/search')
     expect(dispatch.mock.calls[0][1]).toBe('term')
     expect(comp.find('#navigation')[0].hasClass('is-hidden')).toBe(true)
   })

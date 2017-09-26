@@ -35,10 +35,10 @@ describe('Navigation Component', () => {
     }
   })
 
-  const entriesLis = i => comp.find('.categories > div')[i].find('.menu-list > li')
+  const entriesLis = i => comp.find('.menu > div')[i].find('.menu-list > li')
 
   it('should render the categories', () => {
-    expect(comp.find('.categories > div').length).toBe(3)
+    expect(comp.find('.menu > div').length).toBe(3)
   })
 
   it('should render the entries', () => {
@@ -48,11 +48,11 @@ describe('Navigation Component', () => {
   })
 
   it('should have the entries initially closed', () => {
-    expect(comp.find('.menu-list')[0].hasClass('is-hidden')).toBe(true)
+    expect(comp.find('.menu > div')[0].hasClass('is-active')).toBe(false)
   })
 
   it('should remove the hidden class if category title is clicked', () => {
-    comp.find('.category-name')[0].trigger('click')
-    expect(comp.find('.menu-list')[0].hasClass('is-hidden')).toBe(false)
+    comp.find('.menu-label')[0].trigger('click')
+    expect(comp.find('.menu > div')[0].hasClass('is-active')).toBe(true)
   })
 })

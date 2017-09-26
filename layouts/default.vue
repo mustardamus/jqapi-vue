@@ -31,7 +31,7 @@ export default {
 
       switch (keyCode) {
         case 27: // ESC
-          document.querySelector('#search-input input').focus()
+          document.querySelector('#search-input').focus()
           break
       }
     }

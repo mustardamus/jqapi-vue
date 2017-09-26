@@ -60,6 +60,9 @@ export default {
 @import "~assets/sass/variables"
 
 .menu
+  position: relative
+  z-index: 1
+
   .menu-label
     cursor: pointer
     font-size: 1em
