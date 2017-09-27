@@ -32,7 +32,7 @@ const run = () => {
   mkdir('-p', distDir)
   cp('-r', join(repoDir, 'entries'), distDir)
   cp('-r', join(repoDir, 'includes'), distDir)
-  cp('-r', join(repoDir, 'resources'), distDir)
+  cp('-r', join(repoDir, 'resources'), join(distDir, '..'))
   cp(join(repoDir, 'categories.xml'), distDir)
   cp(join(repoDir, 'LICENSE.txt'), distDir)
 }

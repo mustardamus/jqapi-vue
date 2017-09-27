@@ -4,6 +4,7 @@ const { rm, cd } = require('shelljs')
 
 const repoDir = join(__dirname, '../../temp/docs')
 const distDir = join(__dirname, '../../static/docs')
+const resDir = join(distDir, '../resources')
 
 const cleanup = () => {
   return new Promise((resolve, reject) => {
@@ -13,6 +14,10 @@ const cleanup = () => {
 
     if (existsSync(distDir)) {
       rm('-rf', distDir)
+    }
+
+    if (existsSync(resDir)) {
+      rm('-rf', resDir)
     }
 
     resolve()
@@ -34,22 +39,27 @@ describe('Get jQuery Docs Task', () => {
   it('should clone and copy the docs if repo does not exist', () => {
     expect(existsSync(repoDir)).toBe(false)
     expect(existsSync(distDir)).toBe(false)
+    expect(existsSync(resDir)).toBe(false)
 
     require('~/tasks/get-jquery-docs')
 
     expect(existsSync(repoDir)).toBe(true)
     expect(existsSync(distDir)).toBe(true)
+    expect(existsSync(resDir)).toBe(true)
   })
 
   it('should pull and copy the docs if repo exist', () => {
     rm('-rf', distDir)
+    rm('-rf', resDir)
 
     expect(existsSync(repoDir)).toBe(true)
     expect(existsSync(distDir)).toBe(false)
+    expect(existsSync(resDir)).toBe(false)
 
     require('~/tasks/get-jquery-docs')() // re-run exported function
 
     expect(existsSync(repoDir)).toBe(true)
     expect(existsSync(distDir)).toBe(true)
+    expect(existsSync(resDir)).toBe(true)
   })
 })
