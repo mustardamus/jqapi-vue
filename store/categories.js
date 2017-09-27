@@ -4,7 +4,8 @@ import cleanString from '~/plugins/clean-string'
 
 export const state = () => ({
   index: [],
-  populated: []
+  populated: [],
+  open: {}
 })
 
 const getSubCategories = $parent => {
@@ -45,6 +46,17 @@ export const mutations = {
         return category
       })
     }
+  },
+
+  setCategoriesOpen (state) {
+    state.index.forEach(category => {
+      state.open[category.slug] = false
+    })
+  },
+
+  setCategoryOpenToggle (state, category) {
+    const slug = category.slug
+    state.open[slug] = !state.open[slug]
   }
 }
 
@@ -57,6 +69,7 @@ export const actions = {
         this.$axios.get('/docs/categories.xml')
           .then(res => {
             commit('setCategoriesFromXML', res.data)
+            commit('setCategoriesOpen')
             resolve()
           })
           .catch(err => reject(err))

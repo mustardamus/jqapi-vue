@@ -24,7 +24,7 @@ describe('Sidebar Component', () => {
     expect(comp.contains('#search-input')).toBe(true)
   })
 
-  test('it should hide the navigation if a search term is present', () => {
+  test('it should hide the categories if a search term is present', () => {
     opts.globals.$store.state.search.term = 'term'
     comp.vm.onSearchData('term')
     comp.update()
@@ -32,6 +32,6 @@ describe('Sidebar Component', () => {
     expect(dispatch.mock.calls.length).toBe(1)
     expect(dispatch.mock.calls[0][0]).toBe('search/search')
     expect(dispatch.mock.calls[0][1]).toBe('term')
-    expect(comp.find('#navigation')[0].hasClass('is-hidden')).toBe(true)
+    expect(comp.find('#categories')[0].hasClass('is-hidden')).toBe(true)
   })
 })

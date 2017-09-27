@@ -30,27 +30,19 @@ export default {
     selectedEntry: Object
   },
 
-  data: () => ({
-    categoriesOpen: {}
-  }),
-
-  mounted () {
-    this.categories.forEach(category => {
-      this.$set(this.categoriesOpen, category.slug, false)
-    })
+  computed: {
+    categoriesOpen () {
+      return this.$store.state.categories.open
+    }
   },
 
   methods: {
     onCategoryClick (category) {
-      const slug = category.slug
-      const isOpen = this.categoriesOpen[slug]
-
-      this.$set(this.categoriesOpen, slug, !isOpen)
+      this.$emit('categoryClick', category)
     },
 
     onEntryClick (entry) {
-      this.$store.commit('entries/setSelected', entry)
-      this.$router.push(`/${entry.slug}`)
+      this.$emit('entryClick', entry)
     }
   }
 }

@@ -1,8 +1,8 @@
 import { mount } from 'avoriaz'
-import Navigation from '~/components/Navigation'
+import Categories from '~/components/Categories'
 
-describe('Navigation Component', () => {
-  const comp = mount(Navigation, {
+describe('Categories Component', () => {
+  const comp = mount(Categories, {
     propsData: {
       categories: [
         {

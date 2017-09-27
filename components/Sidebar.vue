@@ -15,11 +15,13 @@
       @entryClick="onEntryClick"
     />
 
-    <navigation
-      id="navigation"
+    <categories
+      id="categories"
       :class="{ 'is-hidden': hasSearchTerm }"
       :categories="categories"
       :selectedEntry="selectedEntry"
+      @categoryClick="onCategoryClick"
+      @entryClick="onEntryClick"
     />
   </div>
 </template>
@@ -27,10 +29,10 @@
 <script>
 import Search from './Search'
 import EntriesList from './EntriesList'
-import Navigation from './Navigation'
+import Categories from './Categories'
 
 export default {
-  components: { Search, EntriesList, Navigation },
+  components: { Search, EntriesList, Categories },
 
   computed: {
     categories () {
@@ -68,6 +70,10 @@ export default {
 
     onSelect () {
       this.$router.push(`/${this.selectedEntry.slug}`)
+    },
+
+    onCategoryClick (category) {
+      this.$store.commit('categories/setCategoryOpenToggle', category)
     },
 
     onEntryClick (entry) {

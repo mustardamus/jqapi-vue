@@ -20,9 +20,10 @@ describe('Categories Store', () => {
     const state = { index: [] }
 
     return actions.load.call(contextMock, { commit, state }).then(res => {
-      expect(commit.mock.calls.length).toBe(1)
+      expect(commit.mock.calls.length).toBe(2)
       expect(commit.mock.calls[0][0]).toBe('setCategoriesFromXML')
       expect(commit.mock.calls[0][1]).toBe('/docs/categories.xml')
+      expect(commit.mock.calls[1][0]).toBe('setCategoriesOpen')
     })
   })
 
@@ -109,5 +110,27 @@ describe('Categories Store', () => {
     expect(state.populated[1].entries.length).toBe(2)
     expect(state.populated[2].entries[0].slug).toBe('aEntry')
     expect(state.populated[2].entries[1].slug).toBe('cEntry')
+  })
+
+  it('should create a open state for each category', () => {
+    const state = {
+      index: [
+        { slug: 'cat1' },
+        { slug: 'cat2' }
+      ],
+      open: {}
+    }
+
+    mutations.setCategoriesOpen(state)
+    expect(state.open).toEqual({ cat1: false, cat2: false })
+  })
+
+  it('should toggle the open state of a category', () => {
+    const state = {
+      open: { cat: false }
+    }
+
+    mutations.setCategoryOpenToggle(state, { slug: 'cat' })
+    expect(state.open.cat).toBe(true)
   })
 })
