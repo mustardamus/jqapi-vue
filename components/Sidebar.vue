@@ -19,6 +19,7 @@
       id="categories"
       :class="{ 'is-hidden': hasSearchTerm }"
       :categories="categories"
+      :categoriesOpen="categoriesOpen"
       :selectedEntry="selectedEntry"
       @categoryClick="onCategoryClick"
       @entryClick="onEntryClick"
@@ -37,6 +38,10 @@ export default {
   computed: {
     categories () {
       return this.$store.state.categories.populated
+    },
+
+    categoriesOpen () {
+      return this.$store.state.categories.open
     },
 
     hasSearchTerm () {
@@ -65,10 +70,8 @@ export default {
       if (this.hasSearchTerm) {
         this.$store.dispatch('entries/navigate', {
           direction,
-          entries: this.$store.state.search.index
+          entries: this.searchEntries
         })
-      } else {
-        // TODO navigate including categories
       }
     },
 

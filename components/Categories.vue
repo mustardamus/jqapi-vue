@@ -27,13 +27,8 @@ export default {
 
   props: {
     categories: Array,
-    selectedEntry: Object
-  },
-
-  computed: {
-    categoriesOpen () {
-      return this.$store.state.categories.open
-    }
+    selectedEntry: Object,
+    categoriesOpen: Object
   },
 
   methods: {
