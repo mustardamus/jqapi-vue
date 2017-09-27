@@ -55,6 +55,10 @@ export default {
   methods: {
     onSearchData (term) {
       this.$store.dispatch('search/search', term)
+
+      if (this.searchEntries[0]) {
+        this.$store.commit('entries/setSelected', this.searchEntries[0])
+      }
     },
 
     onNavigate (direction) {
