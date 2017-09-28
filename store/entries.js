@@ -135,16 +135,37 @@ export const actions = {
   },
 
   navigate ({ commit, state, rootState }, direction) {
-    let entries = state.index
-    const selected = state.selected
+    let entries
     let newIndex = 0
 
     if (rootState.search.term.length !== 0) {
       entries = rootState.search.index
+    } else {
+      const categoriesOpen = rootState.categories.open
+      const categoriesSlugs = Object.keys(categoriesOpen)
+      let categoriesOpenSlugs = categoriesSlugs.filter(slug => {
+        return categoriesOpen[slug] === true
+      })
+
+      if (categoriesOpenSlugs.length === 0) {
+        newIndex = null
+        entries = rootState.categories.populated.find(category => {
+          return category.slug === categoriesSlugs[0]
+        }).entries
+
+        commit('categories/setCategoryOpenToggle', categoriesSlugs[0], { root: true })
+        commit('setSelected', entries[0])
+
+        return
+      }
+
+      entries = rootState.categories.populated.find(category => {
+        return category.slug === categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
+      }).entries
     }
 
-    if (selected.slug) {
-      const index = entries.findIndex(entry => entry.slug === selected.slug)
+    if (state.selected.slug) {
+      const index = entries.findIndex(entry => entry.slug === state.selected.slug)
 
       if (direction === 'down') {
         if (index + 1 < entries.length) {

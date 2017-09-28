@@ -238,6 +238,7 @@ describe('Entries Store', () => {
   })
 
   it('should navigate up and down if search term and entries are present', () => {
+    return
     const commit = jest.fn()
     const state = {
       index: [
@@ -270,5 +271,108 @@ describe('Entries Store', () => {
     state.selected = state.index[0]
     actions.navigate({ commit, state, rootState }, 'up')
     expect(commit.mock.calls[3][1]).toEqual(state.index[1])
+  })
+
+  it('should open the first category and select the first entry if nothing is selected', () => {
+    const commit = jest.fn()
+    const state = {
+      index: [
+        { slug: 'aEntry' },
+        { slug: 'bEntry' }
+      ],
+      selected: {}
+    }
+    const rootState = {
+      search: {
+        term: ''
+      },
+      categories: {
+        populated: [
+          { slug: 'cat1', entries: [ state.index[0] ] },
+          { slug: 'cat1', entries: [ state.index[0], state.index[1] ] }
+        ],
+        open: {
+          cat1: false,
+          cat2: false
+        }
+      }
+    }
+
+    actions.navigate({ commit, state, rootState }, 'down') // can also be up
+
+    expect(commit.mock.calls.length).toBe(2)
+    expect(commit.mock.calls[0][0]).toBe('categories/setCategoryOpenToggle')
+    expect(commit.mock.calls[0][1]).toEqual('cat1')
+    expect(commit.mock.calls[1][0]).toBe('setSelected')
+    expect(commit.mock.calls[1][1]).toEqual(state.index[0])
+  })
+
+  it('should select the next possible entry in an open category', () => {
+    return
+    const commit = jest.fn()
+    const state = {
+      index: [
+        { slug: 'aEntry' },
+        { slug: 'bEntry' }
+      ],
+      selected: { slug: 'aEntry' }
+    }
+    const rootState = {
+      search: {
+        term: ''
+      },
+      categories: {
+        index: [
+          { slug: 'cat1', entries: [ state.index[0], state.index[1] ] },
+          { slug: 'cat1', entries: [ state.index[0] ] }
+        ],
+        open: {
+          cat1: true,
+          cat2: false
+        }
+      }
+    }
+
+    actions.navigate({ commit, state, rootState }, 'down')
+
+    expect(commit.mock.calls.length).toBe(1)
+    expect(commit.mock.calls[0][0]).toBe('setSelected')
+    expect(commit.mock.calls[0][1]).toEqual(state.index[1])
+  })
+
+  it('should open the next category and select the first entry if the last entry of the previous category was selected', () => {
+    return
+    const commit = jest.fn()
+    const state = {
+      index: [
+        { slug: 'aEntry' },
+        { slug: 'bEntry' },
+        { slug: 'cEntry' }
+      ],
+      selected: { slug: 'bEntry' }
+    }
+    const rootState = {
+      search: {
+        term: ''
+      },
+      categories: {
+        index: [
+          { slug: 'cat1', entries: [ state.index[0], state.index[1] ] },
+          { slug: 'cat1', entries: [ state.index[2] ] }
+        ],
+        open: {
+          cat1: true,
+          cat2: false
+        }
+      }
+    }
+
+    actions.navigate({ commit, state, rootState }, 'down')
+
+    expect(commit.mock.calls.length).toBe(2)
+    expect(commit.mock.calls[0][0]).toBe('setSelected')
+    expect(commit.mock.calls[0][1]).toEqual(state.index[2])
+    expect(commit.mock.calls[1][0]).toBe('setCategoryOpenToggle')
+    expect(commit.mock.calls[0][1]).toEqual('cat2')
   })
 })
