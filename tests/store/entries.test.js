@@ -238,7 +238,6 @@ describe('Entries Store', () => {
   })
 
   it('should navigate up and down if search term and entries are present', () => {
-    return
     const commit = jest.fn()
     const state = {
       index: [
