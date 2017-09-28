@@ -237,63 +237,38 @@ describe('Entries Store', () => {
     expect(state.current[1].title).toBe('.multiEntry2()')
   })
 
-  it('should navigate to the first entry if none is selected', () => {
+  it('should navigate up and down if search term and entries are present', () => {
     const commit = jest.fn()
-    const state = { selected: {} }
-    const entries = [{ slug: 'aEntry' }, { slug: 'bEntry' }]
+    const state = {
+      index: [
+        { slug: 'aEntry' },
+        { slug: 'bEntry' }
+      ],
+      selected: {}
+    }
+    const rootState = {
+      search: {
+        term: 'ent',
+        index: state.index
+      }
+    }
 
-    actions.navigate({ commit, state }, { direction: 'down', entries })
+    actions.navigate({ commit, state, rootState }, 'down')
 
     expect(commit.mock.calls.length).toBe(1)
     expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(entries[0])
-  })
+    expect(commit.mock.calls[0][1]).toEqual(state.index[0])
 
-  it('should navigate to the next entry', () => {
-    const commit = jest.fn()
-    const state = { selected: { slug: 'aEntry' } }
-    const entries = [{ slug: 'aEntry' }, { slug: 'bEntry' }]
+    state.selected = state.index[0]
+    actions.navigate({ commit, state, rootState }, 'down')
+    expect(commit.mock.calls[1][1]).toEqual(state.index[1])
 
-    actions.navigate({ commit, state }, { direction: 'down', entries })
+    state.selected = state.index[1]
+    actions.navigate({ commit, state, rootState }, 'down')
+    expect(commit.mock.calls[2][1]).toEqual(state.index[0])
 
-    expect(commit.mock.calls.length).toBe(1)
-    expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(entries[1])
-  })
-
-  it('should navigate to the previous entry', () => {
-    const commit = jest.fn()
-    const state = { selected: { slug: 'bEntry' } }
-    const entries = [{ slug: 'aEntry' }, { slug: 'bEntry' }]
-
-    actions.navigate({ commit, state }, { direction: 'up', entries })
-
-    expect(commit.mock.calls.length).toBe(1)
-    expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(entries[0])
-  })
-
-  it('should navigate to first entry if the end is reached', () => {
-    const commit = jest.fn()
-    const state = { selected: { slug: 'bEntry' } }
-    const entries = [{ slug: 'aEntry' }, { slug: 'bEntry' }]
-
-    actions.navigate({ commit, state }, { direction: 'down', entries })
-
-    expect(commit.mock.calls.length).toBe(1)
-    expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(entries[0])
-  })
-
-  it('should navigate to last entry if the start is reached', () => {
-    const commit = jest.fn()
-    const state = { selected: { slug: 'aEntry' } }
-    const entries = [{ slug: 'aEntry' }, { slug: 'bEntry' }]
-
-    actions.navigate({ commit, state }, { direction: 'up', entries })
-
-    expect(commit.mock.calls.length).toBe(1)
-    expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(entries[1])
+    state.selected = state.index[0]
+    actions.navigate({ commit, state, rootState }, 'up')
+    expect(commit.mock.calls[3][1]).toEqual(state.index[1])
   })
 })

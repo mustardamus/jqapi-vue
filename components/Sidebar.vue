@@ -67,12 +67,7 @@ export default {
     },
 
     onNavigate (direction) {
-      if (this.hasSearchTerm) {
-        this.$store.dispatch('entries/navigate', {
-          direction,
-          entries: this.searchEntries
-        })
-      }
+      this.$store.dispatch('entries/navigate', direction)
     },
 
     onSelect () {

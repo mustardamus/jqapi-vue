@@ -134,9 +134,14 @@ export const actions = {
       .then(res => commit('setCurrentEntry', res.data))
   },
 
-  navigate ({ commit, state }, { direction, entries }) {
+  navigate ({ commit, state, rootState }, direction) {
+    let entries = state.index
     const selected = state.selected
     let newIndex = 0
+
+    if (rootState.search.term.length !== 0) {
+      entries = rootState.search.index
+    }
 
     if (selected.slug) {
       const index = entries.findIndex(entry => entry.slug === selected.slug)
