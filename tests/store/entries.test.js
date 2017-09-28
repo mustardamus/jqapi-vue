@@ -308,7 +308,6 @@ describe('Entries Store', () => {
   })
 
   it('should select the next possible entry in an open category', () => {
-    return
     const commit = jest.fn()
     const state = {
       index: [
@@ -341,7 +340,6 @@ describe('Entries Store', () => {
   })
 
   it('should open the next category and select the first entry if the last entry of the previous category was selected', () => {
-    return
     const commit = jest.fn()
     const state = {
       index: [
