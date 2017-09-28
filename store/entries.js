@@ -148,24 +148,40 @@ export const actions = {
       })
 
       if (categoriesOpenSlugs.length === 0) {
-        newIndex = null
         entries = rootState.categories.populated.find(category => {
           return category.slug === categoriesSlugs[0]
         }).entries
+        const slug = categoriesSlugs[0]
 
-        commit('categories/setCategoryOpenToggle', categoriesSlugs[0], { root: true })
+        commit('categories/setCategoryOpenToggle', { slug }, { root: true })
         commit('setSelected', entries[0])
 
         return
       }
 
       entries = rootState.categories.populated.find(category => {
-        return category.slug === categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
+        const slug = categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
+        return category.slug === slug
       }).entries
+
+      if (entries[entries.length - 1].slug === state.selected.slug) {
+        const lastSlug = categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
+        const slug = categoriesSlugs[categoriesSlugs.indexOf(lastSlug) + 1]
+        entries = rootState.categories.populated.find(category => {
+          return category.slug === slug
+        }).entries
+
+        commit('categories/setCategoryOpenToggle', { slug }, { root: true })
+        commit('setSelected', entries[0])
+
+        return
+      }
     }
 
     if (state.selected.slug) {
-      const index = entries.findIndex(entry => entry.slug === state.selected.slug)
+      const index = entries.findIndex(entry => {
+        return entry.slug === state.selected.slug
+      })
 
       if (direction === 'down') {
         if (index + 1 < entries.length) {

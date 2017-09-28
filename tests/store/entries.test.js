@@ -301,7 +301,7 @@ describe('Entries Store', () => {
 
     expect(commit.mock.calls.length).toBe(2)
     expect(commit.mock.calls[0][0]).toBe('categories/setCategoryOpenToggle')
-    expect(commit.mock.calls[0][1]).toEqual('cat1')
+    expect(commit.mock.calls[0][1]).toEqual({ slug: 'cat1' })
     expect(commit.mock.calls[1][0]).toBe('setSelected')
     expect(commit.mock.calls[1][1]).toEqual(state.index[0])
   })
@@ -320,7 +320,7 @@ describe('Entries Store', () => {
         term: ''
       },
       categories: {
-        index: [
+        populated: [
           { slug: 'cat1', entries: [ state.index[0], state.index[1] ] },
           { slug: 'cat1', entries: [ state.index[0] ] }
         ],
@@ -353,9 +353,9 @@ describe('Entries Store', () => {
         term: ''
       },
       categories: {
-        index: [
+        populated: [
           { slug: 'cat1', entries: [ state.index[0], state.index[1] ] },
-          { slug: 'cat1', entries: [ state.index[2] ] }
+          { slug: 'cat2', entries: [ state.index[2] ] }
         ],
         open: {
           cat1: true,
@@ -367,9 +367,9 @@ describe('Entries Store', () => {
     actions.navigate({ commit, state, rootState }, 'down')
 
     expect(commit.mock.calls.length).toBe(2)
-    expect(commit.mock.calls[0][0]).toBe('setSelected')
-    expect(commit.mock.calls[0][1]).toEqual(state.index[2])
-    expect(commit.mock.calls[1][0]).toBe('setCategoryOpenToggle')
-    expect(commit.mock.calls[0][1]).toEqual('cat2')
+    expect(commit.mock.calls[0][0]).toBe('categories/setCategoryOpenToggle')
+    expect(commit.mock.calls[0][1]).toEqual({ slug: 'cat2' })
+    expect(commit.mock.calls[1][0]).toBe('setSelected')
+    expect(commit.mock.calls[1][1]).toEqual(state.index[2])
   })
 })

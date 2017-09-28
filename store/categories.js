@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 import $ from '~/plugins/jquery'
 import cleanString from '~/plugins/clean-string'
@@ -56,7 +55,7 @@ export const mutations = {
   },
 
   setCategoryOpenToggle (state, category) {
-    Vue.set(state.open, category, !state.open[category.slug])
+    state.open[category.slug] = !state.open[category.slug]
   }
 }
 
