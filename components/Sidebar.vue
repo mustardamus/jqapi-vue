@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Search from './Search'
 import EntriesList from './EntriesList'
 import Categories from './Categories'
@@ -68,6 +69,14 @@ export default {
 
     onNavigate (direction) {
       this.$store.dispatch('entries/navigate', direction)
+
+      Vue.nextTick(() => {
+        const el = this.$el.querySelector('.is-active')
+        const top = el.getBoundingClientRect().top
+        const height = this.$el.querySelector('#search').offsetHeight
+
+        this.$el.scrollTop += top - height
+      })
     },
 
     onSelect () {
