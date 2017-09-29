@@ -135,53 +135,15 @@ export const actions = {
   },
 
   navigate ({ commit, state, rootState }, direction) {
-    let entries
-    let newIndex = 0
-
     if (rootState.search.term.length !== 0) {
-      entries = rootState.search.index
-    } else {
-      const categoriesOpen = rootState.categories.open
-      const categoriesSlugs = Object.keys(categoriesOpen)
-      let categoriesOpenSlugs = categoriesSlugs.filter(slug => {
-        return categoriesOpen[slug] === true
-      })
+      const selected = state.selected
+      const entries = rootState.search.index
+      const index = entries.findIndex(entry => entry.slug === selected.slug)
+      let newIndex = 0
 
-      if (categoriesOpenSlugs.length === 0) {
-        entries = rootState.categories.populated.find(category => {
-          return category.slug === categoriesSlugs[0]
-        }).entries
-        const slug = categoriesSlugs[0]
-
-        commit('categories/setCategoryOpenToggle', { slug }, { root: true })
-        commit('setSelected', entries[0])
-
-        return
+      if (!selected.slug) {
+        return commit('setSelected', entries[0])
       }
-
-      entries = rootState.categories.populated.find(category => {
-        const slug = categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
-        return category.slug === slug
-      }).entries
-
-      if (entries[entries.length - 1].slug === state.selected.slug) {
-        const lastSlug = categoriesOpenSlugs[categoriesOpenSlugs.length - 1]
-        const slug = categoriesSlugs[categoriesSlugs.indexOf(lastSlug) + 1]
-        entries = rootState.categories.populated.find(category => {
-          return category.slug === slug
-        }).entries
-
-        commit('categories/setCategoryOpenToggle', { slug }, { root: true })
-        commit('setSelected', entries[0])
-
-        return
-      }
-    }
-
-    if (state.selected.slug) {
-      const index = entries.findIndex(entry => {
-        return entry.slug === state.selected.slug
-      })
 
       if (direction === 'down') {
         if (index + 1 < entries.length) {
@@ -194,8 +156,10 @@ export const actions = {
           newIndex = index - 1
         }
       }
-    }
 
-    commit('setSelected', entries[newIndex])
+      commit('setSelected', entries[newIndex])
+    } else {
+      // TODO keyboard navigation for categories
+    }
   }
 }
